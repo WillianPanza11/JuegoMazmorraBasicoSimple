@@ -14,6 +14,31 @@ var protagonista;
 var enemigo = [];
 var tileMap;
 var imagenAntorcha; 
+
+var musica ;
+var sonido1, sonido2, sonido3; 
+
+musica = new Howl({
+    src: ['music/fortaleza.mp3'],
+    loop: true
+});
+
+sonido1 = new Howl({
+    src: ['sound/fuego.wav'],
+    loop: false
+});
+
+sonido2 = new Howl({
+    src: ['sound/llave.wav'],
+    loop: false
+});
+
+sonido3 = new Howl({
+    src: ['sound/puerta.wav'],
+    loop: false
+});
+
+
 var escenario = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 0],
@@ -193,6 +218,8 @@ var jugador = function () {
     }
 
     this.victoria = function () {
+
+        sonido3.play();
         console.log('Has ganado!');
 
         this.x = 1;
@@ -202,6 +229,7 @@ var jugador = function () {
     }
 
     this.muerte = function () {
+        sonido1.play();
         console.log('Has perdido!');
 
         this.x = 1;
@@ -216,6 +244,7 @@ var jugador = function () {
 
         //OBTIENE llave
         if (objeto == 3) {
+            sonido2.play();
             this.llave = true;
             escenario[this.y][this.x] = 2;
             console.log('Has obtenido la llave!!');
@@ -225,6 +254,7 @@ var jugador = function () {
         if (objeto == 1) {
             if (this.llave == true)
                 this.victoria();
+
             else {
                 console.log('No tienes la llave, no puedes pasar!');
             }
@@ -238,6 +268,8 @@ function inicializa() {
 
     tileMap = new Image();
     tileMap.src = 'img/tilemap.png';
+
+    musica.play();
 
     //CREAMOS AL JUGADOR
     protagonista = new jugador();
